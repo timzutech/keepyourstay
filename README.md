@@ -60,7 +60,7 @@ All are listed with comments in `.env.example`.
 | `NEXT_PUBLIC_SITE_URL` | Yes | Yes | Public URL, no trailing slash. Drives canonical URLs, sitemap, Open Graph and email links. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes | Yes | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Yes | Supabase anon (publishable) key. Safe to expose; limited by Row Level Security. |
-| `SUPABASE_SERVICE_ROLE_KEY` | Yes | **No** | Server only. Saves enquiries and newsletter sign-ups. Never give it a `NEXT_PUBLIC_` prefix. |
+| `FORMS_SECRET` | Yes | **No** | Server only. A long random string; the database stores its hash and requires it to save an enquiry or subscriber. Never give it a `NEXT_PUBLIC_` prefix. |
 | `RESEND_API_KEY` | For email | No | Resend API key |
 | `EMAIL_FROM` | For email | No | Sender, on a domain verified in Resend, e.g. `KeepYourStay <hello@your-domain.com>` |
 | `LEAD_NOTIFICATION_EMAIL` | No | No | Where lead notifications go. Defaults to `KeepYourStay@gmail.com`. |
@@ -72,8 +72,8 @@ All are listed with comments in `.env.example`.
 
 ## Supabase setup
 
-1. **Create a project** at https://supabase.com/dashboard (or choose an existing empty one). The `keepyourstay` project (ref `fgvrynwvqoklklorugin`, US East) already exists with both migrations applied, so for that project skip to step 3. Use a dedicated project: the migration creates tables such as `testimonials` and `site_settings` that could clash with another app's tables.
-2. **Apply the schema.** Open *SQL Editor*, run `supabase/migrations/0001_init.sql`, then `0002_private_is_admin.sql`, each once, in that order. With the Supabase CLI instead:
+1. **Create a project** at https://supabase.com/dashboard (or choose an existing empty one). The `keepyourstay` project (ref `fgvrynwvqoklklorugin`, US East) already exists with both migrations applied, with all three migrations and the secret hash applied, so for that project skip to step 4. Use a dedicated project: the migration creates tables such as `testimonials` and `site_settings` that could clash with another app's tables.
+2. **Apply the schema.** Open *SQL Editor*, run `supabase/migrations/0001_init.sql`, `0002_private_is_admin.sql` and `0003_form_functions.sql`, each once, in that order. With the Supabase CLI instead:
 
    ```bash
    supabase link --project-ref YOUR_PROJECT_REF
@@ -84,7 +84,21 @@ All are listed with comments in `.env.example`.
    ```
 
    This creates all tables, indexes, constraints, Row Level Security policies, the public `media` storage bucket and the starter categories.
-3. **Copy the keys.** *Project Settings → API*: copy the project URL, the anon key and the service-role key into your environment variables.
+3. **Copy the keys.** *Project Settings → API*: copy the project URL and the anon (publishable) key into your environment variables. The service-role key is not used.
+3a. **Set the forms secret.** Generate a random string and its hash:
+
+   ```bash
+   SECRET=$(openssl rand -hex 32); echo "FORMS_SECRET=$SECRET"; printf '%s' "$SECRET" | sha256sum
+   ```
+
+   Put `FORMS_SECRET` in your environment variables, and store the hash in the SQL Editor:
+
+   ```sql
+   insert into private.app_config (key, value) values ('forms_secret_hash', 'PASTE_HASH_HERE')
+   on conflict (key) do update set value = excluded.value;
+   ```
+
+   To rotate the secret later, repeat both halves.
 4. **Create the admin user.** *Authentication → Users → Add user*. Enter an email and a strong password and tick "Auto confirm user".
 5. **Grant admin access.** Open `supabase/make_admin.sql`, replace `REPLACE_WITH_ADMIN_EMAIL` with that email, and run it in the SQL Editor. Only users with a row in `admin_profiles` can use `/admin`.
 6. **Turn off public sign-ups.** *Authentication → Sign In / Providers*: disable "Allow new users to sign up". (A signed-up non-admin could not read or change anything anyway, but there is no reason to allow it.)
@@ -95,7 +109,7 @@ All are listed with comments in `.env.example`.
 | Who | Can do |
 | --- | --- |
 | Visitor (anon key) | Read published projects, their images, published posts, published testimonials, categories, tags and site settings. Nothing else. No direct writes at all. |
-| Site server (service-role key) | Insert validated enquiries and newsletter sign-ups; process unsubscribes. The key never reaches the browser. |
+| Site server (anon key + `FORMS_SECRET`) | Call four database functions: save an enquiry, mark it notified, subscribe, unsubscribe. Nothing else. The secret never reaches the browser, and the service-role key is not used anywhere. |
 | Signed-in non-admin | Same as a visitor. |
 | Admin (row in `admin_profiles`) | Manage everything, through their own session, so the database enforces the same rule as the app. |
 
@@ -206,8 +220,8 @@ tests/                 Unit tests and the browser smoke test
 Decisions worth knowing about:
 
 - **Forms never fake success.** The server validates again with the same Zod schemas as the browser, saves the row, and only then returns success. If the database is unreachable the visitor is told, and pointed to email and WhatsApp.
-- **Visitors cannot write to the database.** Inserts go through server actions using the service-role key, which is tighter than an "anyone can insert" policy.
-- **Spam protection** is a hidden honeypot field, a minimum time on the form, and a limit of five enquiries per ten minutes per visitor (by salted IP hash; raw IPs are not stored). No third-party CAPTCHA, so no extra cookies or scripts.
+- **Visitors cannot write to the database.** Inserts go through server actions that call secret-protected database functions. The site never holds the service-role key, so even a full server compromise could not read enquiries or alter content.
+- **Spam protection** is a hidden honeypot field, a minimum time on the form, and a limit of five enquiries per ten minutes per visitor, enforced in the database (by salted IP hash; raw IPs are not stored). No third-party CAPTCHA, so no extra cookies or scripts.
 - **Calculator results are recomputed on the server** from the submitted inputs, not trusted from the browser.
 - **Content is cached** and refreshed when an admin saves, with a five-minute fallback.
 - **SEO:** unique titles and descriptions, canonical URLs, Open Graph and Twitter cards, `sitemap.xml`, `robots.txt`, breadcrumbs, and JSON-LD for Organization/ProfessionalService, WebSite, Service, Article, BreadcrumbList and FAQPage. No rating or review schema.
@@ -250,7 +264,7 @@ It submits one test contact enquiry and one newsletter sign-up; delete them afte
 
 | Item | Why |
 | --- | --- |
-| A Supabase project and its three keys | Database, admin sign-in, image uploads |
+| An admin user in the `keepyourstay` Supabase project | Dashboard access |
 | An admin email and password | Dashboard access |
 | A domain name | Site address; also required before email can be sent |
 | A Resend account and API key | Lead notification and newsletter emails |

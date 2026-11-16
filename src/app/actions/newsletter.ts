@@ -4,7 +4,7 @@ import { leadInbox, newsletterNotification, newsletterWelcome, sendEmail } from 
 import { issuesToErrors, newsletterSchema } from "@/lib/forms";
 import { siteUrl } from "@/lib/site";
 import { looksAutomated, visitorHash } from "@/lib/spam";
-import { serviceClient } from "@/lib/supabase/admin";
+import { formsClient } from "@/lib/supabase/admin";
 import type { FormState } from "./enquiries";
 
 export async function subscribe(_prev: FormState, fd: FormData): Promise<FormState> {
@@ -20,46 +20,26 @@ export async function subscribe(_prev: FormState, fd: FormData): Promise<FormSta
   }
   const email = parsed.data.email.toLowerCase();
 
-  const db = serviceClient();
-  if (!db) {
-    console.error("[newsletter] Supabase is not configured; subscriber was NOT saved.");
+  const forms = formsClient();
+  if (!forms) {
+    console.error("[newsletter] Supabase or FORMS_SECRET is not configured; subscriber was NOT saved.");
     return fail("We couldn't subscribe you because the site's database isn't connected yet.");
   }
 
-  const { data: existing, error: readError } = await db
-    .from("newsletter_subscribers")
-    .select("id, status, unsubscribe_token")
-    .eq("email", email)
-    .maybeSingle();
-  if (readError) {
-    console.error("[newsletter] lookup failed", readError);
+  const { data, error } = await forms.db.rpc("subscribe_newsletter", {
+    p_secret: forms.secret,
+    p_email: email,
+    p_ip_hash: await visitorHash(),
+  });
+  const result = data as { state: "new" | "already"; token: string } | null;
+  if (error || !result?.token) {
+    console.error("[newsletter] subscribe failed", error);
     return fail("We couldn't subscribe you just now. Try again in a moment.");
   }
-
-  if (existing?.status === "subscribed") {
+  if (result.state === "already") {
     return { status: "success", message: "This address is already subscribed. Nothing else to do." };
   }
-
-  let token: string;
-  if (existing) {
-    const { error } = await db
-      .from("newsletter_subscribers")
-      .update({ status: "subscribed", consent: true, unsubscribed_at: null })
-      .eq("id", existing.id);
-    if (error) return fail("We couldn't subscribe you just now. Try again in a moment.");
-    token = existing.unsubscribe_token;
-  } else {
-    const { data, error } = await db
-      .from("newsletter_subscribers")
-      .insert({ email, consent: true, ip_hash: await visitorHash() })
-      .select("unsubscribe_token")
-      .single();
-    if (error || !data) {
-      console.error("[newsletter] insert failed", error);
-      return fail("We couldn't subscribe you just now. Try again in a moment.");
-    }
-    token = data.unsubscribe_token;
-  }
+  const token = result.token;
 
   const unsubscribeUrl = `${siteUrl}/unsubscribe?token=${token}`;
   await Promise.all([
@@ -79,15 +59,11 @@ export async function unsubscribe(_prev: FormState, fd: FormData): Promise<FormS
   if (!/^[0-9a-f-]{36}$/i.test(token)) {
     return { status: "error", message: "This unsubscribe link isn't valid. Use the link from your most recent email." };
   }
-  const db = serviceClient();
-  if (!db) return { status: "error", message: "We couldn't process this because the site's database isn't connected." };
-  const { data, error } = await db
-    .from("newsletter_subscribers")
-    .update({ status: "unsubscribed", unsubscribed_at: new Date().toISOString() })
-    .eq("unsubscribe_token", token)
-    .select("id");
+  const forms = formsClient();
+  if (!forms) return { status: "error", message: "We couldn't process this because the site's database isn't connected." };
+  const { data: removed, error } = await forms.db.rpc("unsubscribe_newsletter", { p_secret: forms.secret, p_token: token });
   if (error) return { status: "error", message: "We couldn't unsubscribe you just now. Try again in a moment." };
-  if (!data?.length) {
+  if (!removed) {
     return { status: "error", message: "We couldn't find a subscription for this link. It may already have been removed." };
   }
   return { status: "success", message: "You've been unsubscribed. You won't receive further newsletter emails." };

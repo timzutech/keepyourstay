@@ -1,16 +1,15 @@
 import "server-only";
-import { createClient } from "@supabase/supabase-js";
-import { supabaseUrl } from "./env";
+import { publicClient } from "./public";
 
 /**
- * Service-role client. Bypasses Row Level Security, so it is only imported by
- * server code that has already validated its input (public form handlers).
- * Returns null when the key is not configured.
+ * Client for the public form handlers. It uses the ordinary anon key plus a
+ * server-only shared secret (FORMS_SECRET) that the database functions
+ * submit_enquiry, subscribe_newsletter, … require. Returns null when either
+ * part is missing, so callers can tell the visitor honestly that nothing was saved.
  */
-export function serviceClient() {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !key) return null;
-  return createClient(supabaseUrl, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
+export function formsClient() {
+  const secret = process.env.FORMS_SECRET;
+  const db = publicClient();
+  if (!db || !secret) return null;
+  return { db, secret };
 }

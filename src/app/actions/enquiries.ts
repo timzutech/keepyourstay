@@ -4,7 +4,7 @@ import { calculate, formatMoney } from "@/lib/calculator";
 import { enquiryNotification, leadInbox, sendEmail, type Row } from "@/lib/email";
 import { calculatorSchema, formConfigs, issuesToErrors, readForm, schemaFor, type FormKind } from "@/lib/forms";
 import { looksAutomated, visitorHash } from "@/lib/spam";
-import { serviceClient } from "@/lib/supabase/admin";
+import { formsClient } from "@/lib/supabase/admin";
 
 export type FormState = {
   status: "idle" | "success" | "error";
@@ -21,9 +21,6 @@ const COLUMNS = new Set([
   "full_name", "email", "whatsapp", "business_name", "website_url", "country",
   "property_type", "property_count", "services", "preferred_contact", "message",
 ]);
-
-const MAX_PER_WINDOW = 5;
-const WINDOW_MINUTES = 10;
 
 export async function submitEnquiry(_prev: FormState, fd: FormData): Promise<FormState> {
   const kind = String(fd.get("form_kind")) as FormKind;
@@ -59,22 +56,13 @@ export async function submitEnquiry(_prev: FormState, fd: FormData): Promise<For
     calculator = { inputs: calc.data, results: calculate(calc.data) };
   }
 
-  const db = serviceClient();
-  if (!db) {
-    console.error("[enquiry] Supabase is not configured; enquiry was NOT saved.");
+  const forms = formsClient();
+  if (!forms) {
+    console.error("[enquiry] Supabase or FORMS_SECRET is not configured; enquiry was NOT saved.");
     return fail("We couldn't save your enquiry because the site's database isn't connected yet. Please email or WhatsApp us instead.");
   }
-
+  const { db, secret } = forms;
   const ipHash = await visitorHash();
-  const since = new Date(Date.now() - WINDOW_MINUTES * 60_000).toISOString();
-  const { count } = await db
-    .from("enquiries")
-    .select("id", { count: "exact", head: true })
-    .eq("ip_hash", ipHash)
-    .gte("created_at", since);
-  if ((count ?? 0) >= MAX_PER_WINDOW) {
-    return fail("You've sent several enquiries in a short time. Wait a few minutes before sending another.");
-  }
 
   const fields = formConfigs[kind].fields;
   const details: Record<string, string> = {};
@@ -92,11 +80,17 @@ export async function submitEnquiry(_prev: FormState, fd: FormData): Promise<For
   }
   row.details = details;
 
-  const { data: saved, error } = await db.from("enquiries").insert(row).select("id").single();
-  if (error || !saved) {
+  // The database function checks the secret, applies the rate limit
+  // (five enquiries per ten minutes per visitor) and inserts the row.
+  const { data: savedId, error } = await db.rpc("submit_enquiry", { p_secret: secret, p_row: row });
+  if (error || !savedId) {
+    if (error?.message?.includes("rate_limited")) {
+      return fail("You've sent several enquiries in a short time. Wait a few minutes before sending another.");
+    }
     console.error("[enquiry] insert failed", error);
     return fail("We couldn't save your enquiry. Nothing was sent. Try again in a moment, or email us directly.");
   }
+  const saved = { id: savedId as string };
 
   // Saved. Now notify the business. A notification failure does not undo the
   // save; it is recorded so the admin dashboard can show it.
@@ -127,7 +121,7 @@ export async function submitEnquiry(_prev: FormState, fd: FormData): Promise<For
   const mail = enquiryNotification({ typeLabel: TYPE_LABEL[type], id: saved.id, rows });
   const result = await sendEmail({ to: leadInbox(), replyTo: String(data.email), ...mail });
   if (result.sent) {
-    await db.from("enquiries").update({ notification_sent: true }).eq("id", saved.id);
+    await db.rpc("mark_enquiry_notified", { p_secret: secret, p_id: saved.id });
   } else {
     console.warn("[enquiry] saved but notification email not sent:", result.reason);
   }
