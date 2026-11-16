@@ -72,8 +72,8 @@ All are listed with comments in `.env.example`.
 
 ## Supabase setup
 
-1. **Create a project** at https://supabase.com/dashboard (or choose an existing empty one). Use a dedicated project: the migration creates tables such as `testimonials` and `site_settings` that could clash with another app's tables.
-2. **Apply the schema.** Open *SQL Editor*, paste the whole of `supabase/migrations/0001_init.sql`, and run it once. With the Supabase CLI instead:
+1. **Create a project** at https://supabase.com/dashboard (or choose an existing empty one). The `keepyourstay` project (ref `fgvrynwvqoklklorugin`, US East) already exists with both migrations applied, so for that project skip to step 3. Use a dedicated project: the migration creates tables such as `testimonials` and `site_settings` that could clash with another app's tables.
+2. **Apply the schema.** Open *SQL Editor*, run `supabase/migrations/0001_init.sql`, then `0002_private_is_admin.sql`, each once, in that order. With the Supabase CLI instead:
 
    ```bash
    supabase link --project-ref YOUR_PROJECT_REF
