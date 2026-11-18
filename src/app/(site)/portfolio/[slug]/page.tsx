@@ -41,9 +41,10 @@ export default async function ProjectPage({ params }: Props) {
         </div>
         <h1 className="display mt-5">{project.name}</h1>
         <p className="lede mt-6">{project.summary}</p>
-        {project.kind === "completed" && project.website_url && (
+        {project.website_url && (
           <a href={project.website_url} target="_blank" rel="noopener noreferrer" className="btn btn-outline mt-7">
-            Visit the live website<span className="sr-only"> (opens in a new tab)</span>
+            {project.kind === "concept" ? "Try the live demo" : "Visit the live website"}
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         )}
       </div>
@@ -59,6 +60,7 @@ export default async function ProjectPage({ params }: Props) {
           <p className="max-w-[48em] text-sm muted">
             This is a fictional concept created to illustrate our design approach. The property and business are
             invented, and the photographs are licensed stock images, not a client's property.
+            {project.website_url && " The live demo is a working sample site, not a real business taking bookings."}
           </p>
         </div>
       )}

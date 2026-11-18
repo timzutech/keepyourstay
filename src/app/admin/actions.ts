@@ -128,9 +128,6 @@ export async function saveProject(_prev: AdminState, fd: FormData): Promise<Admi
   if (parsed.data.kind === "completed" && published && !clientPermission) {
     return fail("A completed client project can only be published once you've confirmed the client's permission to display it.");
   }
-  if (parsed.data.kind === "concept" && parsed.data.website_url) {
-    return fail("Concept projects are fictional, so they can't have a live website URL. Remove the URL or mark the project as completed.");
-  }
   if (outcomes.length && !outcomesVerified) {
     return fail("Tick “These outcomes are verified” or remove the outcomes. Unverified results are never published.");
   }

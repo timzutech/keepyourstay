@@ -21,6 +21,53 @@ const conceptStack = ["Next.js", "Tailwind CSS", "Supabase", "Vercel"];
  */
 export const conceptProjects: Project[] = [
   {
+    slug: "juniper-and-tide",
+    name: "Juniper & Tide Stays",
+    category: cat("multi-property-businesses"),
+    kind: "concept",
+    summary:
+      "A working direct-booking website for a fictional host with three homes: a lake cabin, a beach house and a city loft.",
+    overview:
+      "Juniper & Tide is an invented hosting business with three very different homes: Heron Lake Cabin in Lake Placid, New York, Saltgrass Beach House on Tybee Island, Georgia, and The Foundry Loft in Savannah, Georgia. Unlike our other concepts, this one is a live, clickable website rather than a set of design pages, so you can try the whole guest journey yourself.",
+    objectives: [
+      "Present three different properties under one calm, consistent brand",
+      "Answer the practical questions on each property page: sleeping, amenities, rules, location",
+      "Explain plainly why booking direct is worth it, without overselling",
+      "Make the route from first impression to checking availability short on any device",
+    ],
+    design_approach:
+      "A full-bleed lakeside photograph and a large serif headline set an unhurried tone, with a dark forest-green accent and plenty of cream space. Each property page follows the same order: gallery, a short story, where you'll sleep, amenities grouped by essentials, comfort, outdoors and extras, house rules, a map and the nightly price. A local guide and a single policies page keep supporting information out of the way until a guest needs it.",
+    features: [
+      "Portfolio of three homes with guests, bedrooms, bathrooms and nightly price at a glance",
+      "Property pages with photo gallery, room-by-room sleeping plan and grouped amenities",
+      "House rules, check-in times and pet policy shown before booking",
+      "Location map with the exact address withheld until after booking",
+      "Availability and booking flow designed for card payment through Stripe (not yet switched on)",
+      "Local guide, about, contact and policies pages",
+      "\"Why book direct\" section explaining fees, payments and live availability",
+    ],
+    services: [
+      "direct-booking-websites",
+      "multi-property-websites",
+      "booking-calendar-integration",
+      "payment-integration",
+    ],
+    technologies: ["Next.js", "Stripe (designed, not live)", "OpenStreetMap", "Vercel"],
+    outcomes: [],
+    outcomes_verified: false,
+    website_url: "https://direct-booking-jupiter.vercel.app/",
+    cover_image: photo("photo-1574514342513-f739e07c81cf"),
+    cover_alt: "Wooden house beside a lake at sunset, the hero image of the Juniper & Tide website",
+    featured: true,
+    images: [
+      { url: photo("photo-1695668193703-cf6a2c6d784b"), alt: "Heron Lake Cabin among the trees beside the lake" },
+      { url: photo("photo-1730005523015-422bd53dda0b"), alt: "Ocean view from Saltgrass Beach House" },
+      { url: photo("photo-1783990349147-906f62b882c1"), alt: "Open-plan dining area and kitchen in The Foundry Loft" },
+      { url: photo("photo-1680703486830-1b5af60635d7"), alt: "Cabin living room with a fireplace and deep sofas" },
+      { url: photo("photo-1785528266178-81cdec8eacf4"), alt: "Bedroom with a large window looking over the lake" },
+    ],
+  },
+  {
     slug: "casa-solene",
     name: "Casa Solène",
     category: cat("luxury-villas"),

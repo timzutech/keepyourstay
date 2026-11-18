@@ -101,7 +101,7 @@ export default async function ProjectEditor({ params, searchParams }: Props) {
                 defaultValue={p?.category_id ?? ""}
                 options={[{ value: "", label: "No category" }, ...(categories ?? []).map((c) => ({ value: c.id, label: c.name }))]}
               />
-              <TextField name="website_url" label="Live website URL" defaultValue={p?.website_url} hint="Completed client projects only." />
+              <TextField name="website_url" label="Live website or demo URL" defaultValue={p?.website_url} hint="For a concept, a working demo site. For a completed project, the client's live site." />
               <CheckField name="client_permission" label="The client has given permission to display this work" defaultChecked={p?.client_permission} hint="Required before a completed project can be published." />
               <CheckField name="published" label="Published" defaultChecked={p?.published} hint="Visible on the public site." />
               <CheckField name="featured" label="Featured" defaultChecked={p?.featured} hint="Shown on the homepage." />
