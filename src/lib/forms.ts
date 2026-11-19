@@ -19,7 +19,7 @@ export type Field = {
   max?: number;
 };
 
-export type FormKind = "contact" | "project" | "consultation" | "calculator";
+export type FormKind = "contact" | "project" | "consultation" | "calculator" | "testimonial";
 
 const propertyCounts = ["1", "2–5", "6–20", "21–50", "More than 50"];
 const contactMethods = ["Email", "WhatsApp", "Video call"];
@@ -28,7 +28,7 @@ const name: Field = { name: "full_name", label: "Full name", type: "text", requi
 const email: Field = { name: "email", label: "Email", type: "email", required: true, autoComplete: "email", half: true };
 const country: Field = { name: "country", label: "Country", type: "text", required: true, autoComplete: "country-name", half: true };
 
-export const formConfigs: Record<FormKind, { submitLabel: string; successTitle: string; fields: Field[] }> = {
+export const formConfigs: Record<FormKind, { submitLabel: string; successTitle: string; fields: Field[]; consentLabel?: string }> = {
   contact: {
     submitLabel: "Send message",
     successTitle: "Message sent",
@@ -86,6 +86,21 @@ export const formConfigs: Record<FormKind, { submitLabel: string; successTitle: 
       { name: "main_challenge", label: "Main challenge", type: "textarea", required: true, max: 2000 },
       { name: "preferred_time", label: "Preferred consultation time", type: "text", required: true, hint: "Days and times that suit you, with your time zone." },
       { name: "message", label: "Additional message", type: "textarea", max: 4000 },
+    ],
+  },
+  testimonial: {
+    submitLabel: "Send my feedback",
+    successTitle: "Thank you for your feedback",
+    consentLabel:
+      "I agree that KeepYourStay may publish my feedback on its website and in its marketing, with the name, role and business shown above. I can ask for it to be removed at any time",
+    fields: [
+      { name: "full_name", label: "Your full name", type: "text", required: true, autoComplete: "name", half: true, hint: "Not published. So we know who sent this." },
+      { name: "email", label: "Email", type: "email", required: true, autoComplete: "email", half: true, hint: "Not published. We may email you to confirm." },
+      { name: "display_name", label: "Name to show with your feedback", type: "text", required: true, half: true, max: 80, hint: "For example \"Sarah K.\" or your full name." },
+      { name: "author_role", label: "Your role (optional)", type: "text", half: true, max: 80, hint: "For example \"Owner\" or \"Property manager\"." },
+      { name: "business_name", label: "Property or business name (optional)", type: "text", autoComplete: "organization", half: true, max: 120 },
+      { name: "website_url", label: "Your website (optional)", type: "url", half: true },
+      { name: "message", label: "Your feedback", type: "textarea", required: true, max: 1200, hint: "In your own words: what we did for you, and how it went. A few honest sentences are plenty." },
     ],
   },
   calculator: {

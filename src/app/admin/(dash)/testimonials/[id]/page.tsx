@@ -20,6 +20,20 @@ export default async function TestimonialEditor({ params }: { params: Promise<{ 
     <>
       <p className="text-sm"><Link href="/admin/testimonials" className="link">All testimonials</Link></p>
       <div className="mt-4"><AdminHeading title={isNew ? "Add testimonial" : "Edit testimonial"} /></div>
+      {t?.source === "feedback_form" && (
+        <div className="mt-6 max-w-3xl rounded-xl border-2 border-forest bg-paper p-5 text-sm">
+          <p className="font-bold">Sent through the feedback form</p>
+          <p className="mt-2">
+            From {t.submitter_name} ({t.submitter_email})
+            {t.website_url && <>, website {t.website_url}</>}.
+            {t.consent_given_at && <> They agreed to publication on {new Date(t.consent_given_at).toLocaleString("en-GB")}.</>}
+          </p>
+          <p className="mt-2 muted">
+            Before ticking &ldquo;genuine&rdquo;, check this is someone you built a website for. If you correct
+            spelling, keep their meaning, and ask them if you change more than that.
+          </p>
+        </div>
+      )}
 
       <AdminForm action={saveTestimonial} submitLabel={isNew ? "Add testimonial" : "Save testimonial"} className="mt-6 max-w-3xl">
         <input type="hidden" name="id" value={t?.id ?? ""} />

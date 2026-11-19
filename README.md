@@ -180,7 +180,7 @@ Sign in at `/admin`.
 | Enquiries | Search, filter by type and status, open details, move through the pipeline (New → Contacted → Qualified → Proposal Sent → Negotiation → Won / Lost), add internal notes, delete |
 | Portfolio | Add, edit, delete, publish or unpublish projects; upload a cover and gallery; mark concept or completed; set featured; add verified outcomes; add categories |
 | Blog | Write in Markdown, save drafts, publish, schedule, feature; categories, tags, featured image, SEO title and description |
-| Testimonials | Add and edit; publishing requires "genuine" and "client approved" to be ticked |
+| Testimonials | Add and edit; publishing requires "genuine" and "client approved" to be ticked. Feedback clients send through the private `/feedback` page arrives here unpublished, with their consent recorded |
 | Subscribers | Newsletter list with status |
 | Site settings | Business email, WhatsApp number, social links, site title, tagline, default SEO description, brand and footer text |
 
@@ -190,6 +190,7 @@ Rules the system enforces for you:
 - Completed client projects need the client-permission box ticked before they can be published.
 - Outcomes show only on completed projects and only when marked verified.
 - The homepage testimonial section is hidden until a testimonial is published.
+- `/feedback` is a private page (not in menus, sitemap or search results). Send its link to clients when a project ends; replies need your verification before they can be published.
 
 Changes appear on the public site immediately after saving.
 

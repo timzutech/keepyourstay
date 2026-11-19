@@ -7,7 +7,7 @@ export const metadata = { title: "Testimonials" };
 export default async function AdminTestimonials({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
   const { saved } = await searchParams;
   const { supabase } = await requireAdmin();
-  const { data: items } = await supabase.from("testimonials").select("*").order("sort_order").order("created_at");
+  const { data: items } = await supabase.from("testimonials").select("*").order("published").order("sort_order").order("created_at", { ascending: false });
 
   return (
     <>
@@ -17,6 +17,11 @@ export default async function AdminTestimonials({ searchParams }: { searchParams
       <p className="mt-3 max-w-[46em] text-sm muted">
         Only add words a real client actually gave you, and only publish them with that client's approval. The
         homepage testimonial section stays hidden until at least one is published.
+      </p>
+      <p className="mt-3 max-w-[46em] text-sm">
+        To collect feedback, send clients this private link when their project ends:{" "}
+        <Link href="/feedback" className="link" target="_blank">/feedback</Link>. Their replies appear here, marked
+        &ldquo;From feedback form&rdquo;, and stay hidden until you verify and publish them.
       </p>
       <Saved show={saved === "1"} />
 
@@ -29,6 +34,12 @@ export default async function AdminTestimonials({ searchParams }: { searchParams
                 <span className="font-bold">{t.author_name}</span>
                 {[t.author_role, t.business_name].filter(Boolean).length > 0 && <span className="muted">, {[t.author_role, t.business_name].filter(Boolean).join(", ")}</span>}
               </p>
+              {t.source === "feedback_form" && (
+                <p className="mt-2 text-sm muted">
+                  From feedback form: {t.submitter_name}, {t.submitter_email}
+                  {t.consent_given_at && <>, agreed to publication on {new Date(t.consent_given_at).toLocaleDateString("en-GB")}</>}
+                </p>
+              )}
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 <span className={`chip ${t.published ? "chip-forest" : ""}`}>{t.published ? "Published" : "Unpublished"}</span>
                 <span className="chip">{t.verified ? "Verified" : "Not verified"}</span>

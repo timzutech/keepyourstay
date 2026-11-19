@@ -9,10 +9,18 @@ import { SpamFields } from "./SpamFields";
 
 const initial: FormState = { status: "idle" };
 
-export function EnquiryForm({ kind, calculator }: { kind: FormKind; calculator?: object }) {
+export function EnquiryForm({
+  kind,
+  calculator,
+  submit = submitEnquiry,
+}: {
+  kind: FormKind;
+  calculator?: object;
+  submit?: (prev: FormState, fd: FormData) => Promise<FormState>;
+}) {
   const config = formConfigs[kind];
   const pathname = usePathname();
-  const [state, action, pending] = useActionState(submitEnquiry, initial);
+  const [state, action, pending] = useActionState(submit, initial);
   const [clientErrors, setClientErrors] = useState<Record<string, string> | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
@@ -143,8 +151,8 @@ export function EnquiryForm({ kind, calculator }: { kind: FormKind; calculator?:
               aria-describedby={errors.consent ? `${id("consent")}-error` : undefined}
             />
             <span>
-              I agree to KeepYourStay storing these details so it can reply to me, as described in the{" "}
-              <Link href="/privacy-policy" className="link">privacy policy</Link>.
+              {config.consentLabel ?? "I agree to KeepYourStay storing these details so it can reply to me"}, as
+              described in the <Link href="/privacy-policy" className="link">privacy policy</Link>.
             </span>
           </label>
           {errors.consent && <p id={`${id("consent")}-error`} className="field-error">{errors.consent}</p>}

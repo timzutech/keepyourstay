@@ -200,6 +200,26 @@ const footerText = await page.locator("footer").innerText();
 if (EXPECT_BACKEND) ok("newsletter: subscribed", /You're subscribed|already subscribed/.test(footerText));
 else ok("newsletter: no success claimed without a database", /database isn't connected/.test(footerText) && !/You're subscribed/.test(footerText));
 
+// Client feedback page: private, not indexed, consent required, honest on failure.
+await page.goto(BASE + "/feedback", { waitUntil: "load" });
+ok("feedback page: loads and is not indexed", (await page.locator('meta[name="robots"][content*="noindex"]').count()) === 1);
+const fb = page.locator("main form");
+await fb.getByLabel("Your full name").fill("Test Client");
+await fb.getByLabel("Email", { exact: true }).fill("client@example.com");
+await fb.getByLabel("Name to show with your feedback").fill("Test C.");
+await fb.getByLabel("Your feedback", { exact: true }).fill("Automated test feedback.");
+await fb.getByRole("button", { name: "Send my feedback" }).click();
+ok("feedback page: publication consent is required", (await fb.getByText(/Tick the box/).count()) === 1);
+await fb.locator('input[name="consent"]').check();
+await page.waitForTimeout(2800);
+await fb.getByRole("button", { name: "Send my feedback" }).click();
+await page.waitForTimeout(1800);
+const fbText = await page.locator("main").innerText();
+if (EXPECT_BACKEND) ok("feedback page: saved", /Thank you for your feedback/.test(fbText));
+else ok("feedback page: no success claimed without a database", /database isn't connected/.test(fbText) && !/Thank you for your feedback/.test(fbText));
+await page.goto(BASE + "/", { waitUntil: "load" });
+ok("homepage: commitments section present", (await page.getByRole("heading", { name: "What working with us looks like" }).count()) === 1);
+
 // ── 8. Portfolio ──
 await page.goto(BASE + "/portfolio", { waitUntil: "load" });
 const cards = () => page.locator("main article").count();

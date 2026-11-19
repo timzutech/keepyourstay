@@ -119,3 +119,24 @@ export function newsletterNotification(email: string) {
     text: `${email} subscribed to the newsletter.`,
   };
 }
+
+export function testimonialNotification(opts: { id: string; rows: Row[] }) {
+  const rows = opts.rows.filter(([, v]) => v && v.trim() !== "");
+  const table = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;line-height:1.5;">${rows
+    .map(
+      ([l, v]) =>
+        `<tr><td style="padding:8px 12px 8px 0;border-top:1px solid #E6DAC3;color:#6B6252;width:30%;vertical-align:top;">${escapeHtml(l)}</td><td style="padding:8px 0;border-top:1px solid #E6DAC3;vertical-align:top;white-space:pre-wrap;">${escapeHtml(v)}</td></tr>`,
+    )
+    .join("")}</table>`;
+  const adminUrl = `${siteUrl}/admin/testimonials/${opts.id}`;
+  return {
+    subject: "New client feedback to review",
+    html: layout({
+      heading: "New client feedback",
+      intro:
+        "A client sent feedback through the website and agreed to it being published. It stays hidden until you check it came from a real client, tick \"verified\" and publish it.",
+      body: table + button(adminUrl, "Review in admin dashboard"),
+    }),
+    text: `New client feedback to review\n\n${rows.map(([l, v]) => `${l}: ${v}`).join("\n")}\n\nReview: ${adminUrl}`,
+  };
+}

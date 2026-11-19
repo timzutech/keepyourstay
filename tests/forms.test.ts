@@ -98,3 +98,22 @@ describe("WhatsApp link", () => {
     expect(url).toBe("https://wa.me/19514692722?text=Hello%20there");
   });
 });
+
+describe("testimonial feedback form", () => {
+  const t = {
+    full_name: "Sarah Kent", email: "sarah@example.com", display_name: "Sarah K.", author_role: "",
+    business_name: "", website_url: "", message: "They built our site and it was easy.", consent: "yes",
+  };
+  it("accepts a valid submission with optional fields empty", () => {
+    expect(schemaFor("testimonial").safeParse(t).success).toBe(true);
+  });
+  it("requires publication consent, a display name and the feedback", () => {
+    const r = schemaFor("testimonial").safeParse({ ...t, consent: "", display_name: "", message: "" });
+    expect(r.success).toBe(false);
+    const errors = issuesToErrors(r.error!.issues);
+    expect(Object.keys(errors).sort()).toEqual(["consent", "display_name", "message"]);
+  });
+  it("limits feedback length", () => {
+    expect(schemaFor("testimonial").safeParse({ ...t, message: "x".repeat(1201) }).success).toBe(false);
+  });
+});

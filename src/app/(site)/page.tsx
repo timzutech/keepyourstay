@@ -45,6 +45,31 @@ const steps = [
   { title: "Launch and support", text: "We launch on your domain, hand over what you need to run it, and stay available afterwards." },
 ];
 
+// Promises already made elsewhere on the site (process, pricing and contact pages),
+// gathered in one place. Change them here if the way you work changes.
+const commitments = [
+  {
+    title: "A written scope and quotation first",
+    text: "You see exactly what will be built and what it costs, in US dollars or pounds sterling, before any work starts. Nothing begins until you approve both.",
+  },
+  {
+    title: "A private preview before anything goes live",
+    text: "You review the whole site on a private link and we make the changes we agreed before it launches on your domain.",
+  },
+  {
+    title: "Tested the way your guests will use it",
+    text: "We check every page on phones, tablets and desktops, and run test enquiries and bookings end to end before launch.",
+  },
+  {
+    title: "A reply within two working days",
+    text: "Questions during or after your project go to a person, not a ticket queue, and we usually answer within two working days.",
+  },
+  {
+    title: "Your words, your property, nothing invented",
+    text: "We don't add made-up reviews, statistics or results to your site, or to ours. Every claim on your website should be one you can stand behind.",
+  },
+];
+
 const reasons = [
   {
     title: "We only work with short-term rentals",
@@ -282,9 +307,35 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* What working with us looks like */}
+      <section className="bg-paper">
+        <div className="wrap band grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <h2 className="title">What working with us looks like</h2>
+            <p className="reading mt-5">
+              Plain commitments you can hold us to, from the first conversation to the day your site goes live.
+            </p>
+            <Link href="/contact#consultation" className="btn btn-primary mt-8">Book a Website Consultation</Link>
+          </div>
+          <ul className="rule-t lg:col-span-7 lg:col-start-6">
+            {commitments.map((c) => (
+              <li key={c.title} className="rule-b flex gap-4 py-5">
+                <svg width="22" height="22" viewBox="0 0 20 20" className="mt-1 flex-none text-forest" aria-hidden="true">
+                  <path d="M3 10.5 8 15.5 17 5" fill="none" stroke="currentColor" strokeWidth="2.4" />
+                </svg>
+                <div>
+                  <h3 className="subheading font-bold">{c.title}</h3>
+                  <p className="reading-sm mt-1.5">{c.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* Testimonials — rendered only when verified testimonials are published */}
       {testimonials.length > 0 && (
-        <section className="bg-paper">
+        <section>
           <div className="wrap band">
             <h2 className="title">What clients say</h2>
             <div className="mt-12 grid gap-10 md:grid-cols-2">
