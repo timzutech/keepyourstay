@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminForm } from "@/components/admin/AdminForm";
 import { ConfirmButton } from "@/components/admin/ConfirmButton";
-import { AdminHeading, CheckField, Panel, TextField } from "@/components/admin/Fields";
+import { AdminHeading, CheckField, Panel, SelectField, TextField } from "@/components/admin/Fields";
 import { requireAdmin } from "@/lib/supabase/server";
 import { deleteTestimonial, saveTestimonial } from "../../../actions";
 
@@ -43,6 +43,16 @@ export default async function TestimonialEditor({ params }: { params: Promise<{ 
             <TextField name="author_name" label="Client name" defaultValue={t?.author_name} required />
             <TextField name="author_role" label="Role (optional)" defaultValue={t?.author_role} hint="For example: Owner." />
             <TextField name="business_name" label="Business or property (optional)" defaultValue={t?.business_name} />
+            <SelectField
+              name="rating"
+              label="Star rating"
+              defaultValue={t?.rating ? String(t.rating) : ""}
+              options={[
+                { value: "", label: "No rating" },
+                ...[5, 4, 3, 2, 1].map((n) => ({ value: String(n), label: `${n} out of 5` })),
+              ]}
+              hint="Only the rating the client actually gave. Leave as “No rating” if they didn't give one."
+            />
           </Panel>
           <Panel title="Verification and visibility">
             <CheckField name="verified" label="This is a genuine testimonial from a real client" defaultChecked={t?.verified} />

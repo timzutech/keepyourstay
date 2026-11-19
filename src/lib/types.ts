@@ -46,6 +46,7 @@ export type Post = {
 
 export type Testimonial = {
   id: string;
+  rating: number | null;
   quote: string;
   author_name: string;
   author_role: string | null;

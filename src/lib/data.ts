@@ -96,7 +96,7 @@ export const getTestimonials = cache(async (): Promise<Testimonial[]> => {
   if (!db) return [];
   const { data, error } = await db
     .from("testimonials")
-    .select("id, quote, author_name, author_role, business_name")
+    .select("id, quote, author_name, author_role, business_name, rating")
     .eq("published", true)
     .order("sort_order");
   if (error) return [];

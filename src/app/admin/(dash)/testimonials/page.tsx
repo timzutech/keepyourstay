@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminHeading, Saved } from "@/components/admin/Fields";
+import { Stars } from "@/components/Stars";
 import { requireAdmin } from "@/lib/supabase/server";
 
 export const metadata = { title: "Testimonials" };
@@ -29,7 +30,8 @@ export default async function AdminTestimonials({ searchParams }: { searchParams
         <ul className="mt-6 grid gap-4">
           {items.map((t) => (
             <li key={t.id} className="rounded-xl border-2 border-ink bg-paper p-5">
-              <p className="font-serif text-lg leading-snug">“{t.quote}”</p>
+              {t.rating && <Stars rating={t.rating} size={16} />}
+              <p className="mt-2 font-serif text-lg leading-snug">“{t.quote}”</p>
               <p className="mt-3 text-sm">
                 <span className="font-bold">{t.author_name}</span>
                 {[t.author_role, t.business_name].filter(Boolean).length > 0 && <span className="muted">, {[t.author_role, t.business_name].filter(Boolean).join(", ")}</span>}

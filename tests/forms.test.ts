@@ -102,16 +102,22 @@ describe("WhatsApp link", () => {
 describe("testimonial feedback form", () => {
   const t = {
     full_name: "Sarah Kent", email: "sarah@example.com", display_name: "Sarah K.", author_role: "",
-    business_name: "", website_url: "", message: "They built our site and it was easy.", consent: "yes",
+    business_name: "", website_url: "", rating: "5", message: "They built our site and it was easy.", consent: "yes",
   };
   it("accepts a valid submission with optional fields empty", () => {
     expect(schemaFor("testimonial").safeParse(t).success).toBe(true);
   });
   it("requires publication consent, a display name and the feedback", () => {
-    const r = schemaFor("testimonial").safeParse({ ...t, consent: "", display_name: "", message: "" });
+    const r = schemaFor("testimonial").safeParse({ ...t, consent: "", display_name: "", message: "", rating: "" });
     expect(r.success).toBe(false);
     const errors = issuesToErrors(r.error!.issues);
-    expect(Object.keys(errors).sort()).toEqual(["consent", "display_name", "message"]);
+    expect(Object.keys(errors).sort()).toEqual(["consent", "display_name", "message", "rating"]);
+  });
+  it("requires a whole-star rating from 1 to 5", () => {
+    expect(schemaFor("testimonial").safeParse({ ...t, rating: "" }).success).toBe(false);
+    expect(schemaFor("testimonial").safeParse({ ...t, rating: "6" }).success).toBe(false);
+    expect(schemaFor("testimonial").safeParse({ ...t, rating: "4.5" }).success).toBe(false);
+    expect(schemaFor("testimonial").safeParse({ ...t, rating: "1" }).success).toBe(true);
   });
   it("limits feedback length", () => {
     expect(schemaFor("testimonial").safeParse({ ...t, message: "x".repeat(1201) }).success).toBe(false);

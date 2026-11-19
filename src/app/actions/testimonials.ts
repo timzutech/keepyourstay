@@ -47,6 +47,7 @@ export async function submitTestimonial(_prev: FormState, fd: FormData): Promise
     rows: [
       ["Name", data.full_name],
       ["Email", data.email],
+      ["Rating", `${data.rating} out of 5`],
       ["Shown as", [data.display_name, data.author_role, data.business_name].filter(Boolean).join(", ")],
       ["Website", data.website_url],
       ["Feedback", data.message],

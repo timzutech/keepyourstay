@@ -6,6 +6,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { submitEnquiry, type FormState } from "@/app/actions/enquiries";
 import { formConfigs, issuesToErrors, readForm, schemaFor, type Field, type FormKind } from "@/lib/forms";
 import { SpamFields } from "./SpamFields";
+import { StarInput } from "./StarInput";
 
 const initial: FormState = { status: "idle" };
 
@@ -91,7 +92,15 @@ export function EnquiryForm({
           };
           return (
             <div key={f.name} className={f.half ? "" : "sm:col-span-2"}>
-              {f.type === "checkboxes" ? (
+              {f.type === "rating" ? (
+                <StarInput
+                  name={f.name}
+                  label={f.label}
+                  defaultValue={(v as string) ?? ""}
+                  invalid={Boolean(errors[f.name])}
+                  describedBy={describedBy(f)}
+                />
+              ) : f.type === "checkboxes" ? (
                 <fieldset aria-describedby={describedBy(f)}>
                   <legend className="label">{f.label}</legend>
                   <div className="grid gap-x-5 gap-y-2.5 sm:grid-cols-2">

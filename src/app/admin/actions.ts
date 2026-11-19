@@ -285,6 +285,7 @@ export async function saveTestimonial(_prev: AdminState, fd: FormData): Promise<
     author_name: text(fd, "author_name"),
     author_role: text(fd, "author_role") || null,
     business_name: text(fd, "business_name") || null,
+    rating: /^[1-5]$/.test(text(fd, "rating")) ? Number(text(fd, "rating")) : null,
     verified: checked(fd, "verified"),
     client_approved: checked(fd, "client_approved"),
     published: checked(fd, "published"),

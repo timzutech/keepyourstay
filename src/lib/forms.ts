@@ -5,7 +5,7 @@ import { calculatorLimits } from "./calculator";
 export const HONEYPOT_FIELD = "company_site";
 export const TIMESTAMP_FIELD = "started_at";
 
-export type FieldType = "text" | "email" | "url" | "tel" | "textarea" | "select" | "checkboxes";
+export type FieldType = "text" | "email" | "url" | "tel" | "textarea" | "select" | "checkboxes" | "rating";
 
 export type Field = {
   name: string;
@@ -100,6 +100,7 @@ export const formConfigs: Record<FormKind, { submitLabel: string; successTitle: 
       { name: "author_role", label: "Your role (optional)", type: "text", half: true, max: 80, hint: "For example \"Owner\" or \"Property manager\"." },
       { name: "business_name", label: "Property or business name (optional)", type: "text", autoComplete: "organization", half: true, max: 120 },
       { name: "website_url", label: "Your website (optional)", type: "url", half: true },
+      { name: "rating", label: "Your rating", type: "rating", required: true },
       { name: "message", label: "Your feedback", type: "textarea", required: true, max: 1200, hint: "In your own words: what we did for you, and how it went. A few honest sentences are plenty." },
     ],
   },
@@ -122,6 +123,9 @@ const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1).replace(/ \(
 
 function fieldSchema(f: Field) {
   const label = lower(f.label);
+  if (f.type === "rating") {
+    return z.enum(["1", "2", "3", "4", "5"], { error: "Choose a rating from 1 to 5 stars" });
+  }
   if (f.type === "checkboxes") {
     const arr = z.array(z.enum(f.options as [string, ...string[]]));
     return f.required ? arr.min(1, "Choose at least one option") : arr;

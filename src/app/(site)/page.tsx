@@ -4,6 +4,7 @@ import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
 import { HeroBrowser } from "@/components/HeroBrowser";
 import { Photo } from "@/components/Photo";
+import { TestimonialList } from "@/components/TestimonialList";
 import { homeFaqs } from "@/content/faqs";
 import { services } from "@/content/services";
 import { getProjects, getSettings, getTestimonials } from "@/lib/data";
@@ -338,19 +339,7 @@ export default async function HomePage() {
         <section>
           <div className="wrap band">
             <h2 className="title">What clients say</h2>
-            <div className="mt-12 grid gap-10 md:grid-cols-2">
-              {testimonials.map((t) => (
-                <figure key={t.id} className="rule-t pt-5">
-                  <blockquote className="font-serif text-[1.35rem] leading-snug">“{t.quote}”</blockquote>
-                  <figcaption className="mt-4 text-sm">
-                    <span className="font-bold">{t.author_name}</span>
-                    {(t.author_role || t.business_name) && (
-                      <span className="muted">, {[t.author_role, t.business_name].filter(Boolean).join(", ")}</span>
-                    )}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+            <TestimonialList items={testimonials} />
           </div>
         </section>
       )}
