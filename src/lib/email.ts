@@ -5,6 +5,10 @@ export type SendResult = { sent: true } | { sent: false; reason: string };
 
 export const isEmailConfigured = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
 
+/** Names of the email settings that are missing on this deployment. */
+export const missingEmailSettings = () =>
+  (["RESEND_API_KEY", "EMAIL_FROM"] as const).filter((k) => !process.env[k]?.trim());
+
 export const leadInbox = () =>
   process.env.LEAD_NOTIFICATION_EMAIL || process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "KeepYourStay@gmail.com";
 

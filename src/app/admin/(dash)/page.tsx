@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AdminForm } from "@/components/admin/AdminForm";
 import { AdminHeading, Panel } from "@/components/admin/Fields";
 import { formatDate } from "@/lib/data";
-import { isEmailConfigured } from "@/lib/email";
+import { isEmailConfigured, missingEmailSettings } from "@/lib/email";
 import { requireAdmin } from "@/lib/supabase/server";
 import { importStarterContent } from "../actions";
 
@@ -55,10 +55,17 @@ export default async function AdminOverview() {
       <AdminHeading title="Overview" />
 
       {!isEmailConfigured() && (
-        <p role="note" className="mt-6 rounded-lg border-2 border-alert bg-paper p-4 font-semibold text-alert">
-          Email notifications are off. Enquiries are being saved here, but nothing is emailed until RESEND_API_KEY and
-          EMAIL_FROM are set.
-        </p>
+        <div role="note" className="mt-6 rounded-lg border-2 border-alert bg-paper p-4 text-alert">
+          <p className="font-semibold">
+            Email notifications are off. Enquiries are being saved here, but nothing is emailed yet.
+          </p>
+          <p className="mt-2 text-sm">
+            Missing on this deployment: <strong>{missingEmailSettings().join(" and ")}</strong>. In Vercel, add{" "}
+            {missingEmailSettings().length > 1 ? "them" : "it"} under Settings → Environment Variables with
+            &ldquo;Production&rdquo; ticked, then redeploy. Settings only take effect on deployments made after you
+            save them.
+          </p>
+        </div>
       )}
 
       <ul className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
