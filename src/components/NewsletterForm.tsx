@@ -1,15 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { subscribe } from "@/app/actions/newsletter";
 import type { FormState } from "@/app/actions/enquiries";
 import { SpamFields } from "./SpamFields";
+import { trackSignup } from "@/lib/track";
 
 const initial: FormState = { status: "idle" };
 
 export function NewsletterForm() {
   const [state, action, pending] = useActionState(subscribe, initial);
+
+  useEffect(() => {
+    if (state.status === "success") trackSignup();
+  }, [state.status]);
 
   if (state.status === "success") {
     return <p role="status" className="font-semibold">{state.message}</p>;

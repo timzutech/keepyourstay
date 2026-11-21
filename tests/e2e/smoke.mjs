@@ -270,7 +270,7 @@ ok("admin: noindex header", /noindex/.test(adminRes.headers()["x-robots-tag"] ??
 // ── 11. Mobile ──
 const mobile = await browser.newContext({ viewport: { width: 375, height: 740 }, hasTouch: true, isMobile: true });
 const mp = await mobile.newPage();
-await mp.addInitScript(() => localStorage.setItem("kys_consent", JSON.stringify({ v: 1, analytics: false, decidedAt: "x" })));
+await mp.addInitScript(() => localStorage.setItem("kys_consent", JSON.stringify({ v: 2, analytics: false, marketing: false, decidedAt: "x" })));
 const overflow = [];
 for (const p of ["/", "/about", "/services", "/services/seo", "/portfolio", "/portfolio/casa-solene", "/pricing", "/direct-booking", "/savings-calculator", "/blog", "/blog/how-to-improve-vacation-rental-seo", "/contact", "/faq", "/privacy-policy"]) {
   await mp.goto(BASE + p, { waitUntil: "load" });

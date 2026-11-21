@@ -29,7 +29,13 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <span>WhatsApp us</span>
         <span className="sr-only"> (opens in a new tab)</span>
       </a>
-      <CookieConsent gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || undefined} />
+      <CookieConsent
+        ids={{
+          ga: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || undefined,
+          googleAds: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || undefined,
+          metaPixel: process.env.NEXT_PUBLIC_META_PIXEL_ID || undefined,
+        }}
+      />
     </>
   );
 }

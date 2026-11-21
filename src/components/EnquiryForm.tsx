@@ -7,6 +7,7 @@ import { submitEnquiry, type FormState } from "@/app/actions/enquiries";
 import { formConfigs, issuesToErrors, readForm, schemaFor, type Field, type FormKind } from "@/lib/forms";
 import { SpamFields } from "./SpamFields";
 import { StarInput } from "./StarInput";
+import { trackLead } from "@/lib/track";
 
 const initial: FormState = { status: "idle" };
 
@@ -32,9 +33,13 @@ export function EnquiryForm({
   const id = (name: string) => `${kind}-${name}`;
 
   useEffect(() => {
-    if (state.status === "success") doneRef.current?.focus();
+    if (state.status === "success") {
+      doneRef.current?.focus();
+      // Feedback from existing clients isn't a new lead.
+      if (kind !== "testimonial") trackLead(kind);
+    }
     if (state.status === "error") summaryRef.current?.focus();
-  }, [state]);
+  }, [state, kind]);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     const parsed = schemaFor(kind).safeParse(readForm(kind, new FormData(e.currentTarget)));

@@ -30,10 +30,19 @@ export default function CookiePolicyPage() {
 
       <h2>Analytics cookies</h2>
       <p>
-        Only if you accept: [analytics provider, e.g. Google Analytics 4] sets cookies such as <code>_ga</code> to
-        measure visits and page views. If analytics is not configured on this site, no analytics cookies are set
-        whatever you choose. [Confirm cookie names and durations once analytics is configured.]
+        Only if you accept analytics: Google Analytics 4 sets cookies such as <code>_ga</code> and{" "}
+        <code>_ga_*</code> to measure visits and page views. If analytics is not configured on this site, no
+        analytics cookies are set whatever you choose.
       </p>
+
+      <h2>Advertising cookies</h2>
+      <p>
+        Only if you accept advertising: we use the Google Ads tag (cookies such as <code>_gcl_au</code>) and the Meta
+        Pixel (cookies such as <code>_fbp</code>) to learn whether someone who clicked one of our ads went on to send
+        an enquiry or subscribe. We don't use them to build profiles of visitors ourselves, but Google and Meta
+        process this data under their own policies. If these tools are not configured, nothing is set.
+      </p>
+      <p>[Confirm cookie names and durations once the accounts are set up.]</p>
 
       <h2>Third-party links</h2>
       <p>

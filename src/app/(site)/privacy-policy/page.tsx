@@ -25,7 +25,8 @@ export default async function PrivacyPolicyPage() {
         <li><strong>Savings calculator.</strong> If you send us your estimate, the figures you entered and the calculated results.</li>
         <li><strong>Newsletter.</strong> Your email address and a record of your consent.</li>
         <li><strong>Spam prevention.</strong> A one-way hash of your IP address, stored with a submission so we can limit repeated automated submissions. We do not store the IP address itself.</li>
-        <li><strong>Analytics.</strong> Only if you accept analytics cookies: information about pages visited and approximate location, collected by [analytics provider].</li>
+        <li><strong>Analytics.</strong> Only if you accept analytics cookies: information about pages visited and approximate location, collected by Google Analytics.</li>
+        <li><strong>Advertising measurement.</strong> Only if you accept advertising cookies: whether you arrived from one of our Google or Meta ads and whether you then sent an enquiry or subscribed, shared with Google (Google Ads) and Meta (Meta Pixel).</li>
       </ul>
 
       <h2>How we use it</h2>
@@ -34,6 +35,7 @@ export default async function PrivacyPolicyPage() {
         <li>To send the newsletter, if you subscribed</li>
         <li>To protect the website from spam and abuse</li>
         <li>To understand how the website is used, if you consented to analytics</li>
+        <li>To measure whether our adverts lead to enquiries, if you consented to advertising cookies</li>
       </ul>
       <p>We do not sell personal information.</p>
 
@@ -49,7 +51,8 @@ export default async function PrivacyPolicyPage() {
         <li>Supabase (database and authentication)</li>
         <li>Vercel (website hosting)</li>
         <li>Resend (transactional email)</li>
-        <li>[Analytics provider, if enabled]</li>
+        <li>Google (Google Analytics and Google Ads, if enabled and you consent)</li>
+        <li>Meta Platforms (Meta Pixel, if enabled and you consent)</li>
       </ul>
       <p>[Describe international data transfers and safeguards.]</p>
 
