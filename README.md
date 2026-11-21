@@ -2,6 +2,8 @@
 
 **Your property. Your website. Your bookings.**
 
+**Live site:** https://www.keepyourstay.com
+
 The marketing website, lead-capture system and admin dashboard for KeepYourStay, a vacation rental website design and direct-booking solutions provider.
 
 - **Framework:** Next.js 15 (App Router), React 19, TypeScript
