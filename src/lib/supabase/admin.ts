@@ -8,7 +8,8 @@ import { publicClient } from "./public";
  * part is missing, so callers can tell the visitor honestly that nothing was saved.
  */
 export function formsClient() {
-  const secret = process.env.FORMS_SECRET;
+  // Trimmed so a stray space or line break pasted into the setting cannot break forms.
+  const secret = process.env.FORMS_SECRET?.trim();
   const db = publicClient();
   if (!db || !secret) return null;
   return { db, secret };
