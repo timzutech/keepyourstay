@@ -1,7 +1,30 @@
 // Central, env-driven defaults. Anything here can be overridden per-deployment
 // with environment variables, and most of it again in Admin → Settings.
 
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+/** The live site's address. Used for production when no custom-domain address is configured. */
+export const PRODUCTION_URL = "https://www.keepyourstay.com";
+
+/**
+ * Picks the site's public address (used for canonical links, the sitemap,
+ * social previews and email links).
+ * - Production on Vercel: NEXT_PUBLIC_SITE_URL if it is set to a custom domain,
+ *   otherwise PRODUCTION_URL. A *.vercel.app value is ignored there, so a stale
+ *   setting can never point search engines at the wrong host.
+ * - Everywhere else (previews, local): NEXT_PUBLIC_SITE_URL, or localhost.
+ */
+export function resolveSiteUrl(env: { configured?: string; vercelEnv?: string }) {
+  const configured = env.configured?.trim().replace(/\/$/, "");
+  if (env.vercelEnv === "production") {
+    if (configured && !/\.vercel\.app$/i.test(new URL(configured).hostname)) return configured;
+    return PRODUCTION_URL;
+  }
+  return configured || "http://localhost:3000";
+}
+
+export const siteUrl = resolveSiteUrl({
+  configured: process.env.NEXT_PUBLIC_SITE_URL,
+  vercelEnv: process.env.VERCEL_ENV,
+});
 
 export type SiteSettings = {
   site_title: string;
