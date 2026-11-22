@@ -8,7 +8,7 @@ export const revalidate = 300;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [projects, posts] = await Promise.all([getProjects(), getPosts()]);
   const staticPaths = [
-    "", "/about", "/services", "/portfolio", "/pricing", "/direct-booking", "/savings-calculator",
+    "", "/about", "/services", "/marketing", "/portfolio", "/pricing", "/direct-booking", "/savings-calculator",
     "/blog", "/contact", "/faq", "/privacy-policy", "/terms-and-conditions", "/cookie-policy",
   ];
   return [

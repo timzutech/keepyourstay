@@ -67,6 +67,7 @@ export function formatWhatsapp(number: string) {
 
 export const mainNav = [
   { href: "/services", label: "Services" },
+  { href: "/marketing", label: "Marketing" },
   { href: "/portfolio", label: "Our work" },
   { href: "/direct-booking", label: "Direct booking guide" },
   { href: "/pricing", label: "Pricing" },

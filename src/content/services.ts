@@ -319,10 +319,10 @@ export const services: Service[] = [
   },
   {
     slug: "booking-marketing",
-    name: "Social Media and Booking Marketing",
-    short: "Booking marketing",
+    name: "Direct Booking Marketing",
+    short: "Direct booking marketing",
     summary:
-      "Give people a reason to visit your website, and stay in touch with guests who already know you.",
+      "Get guests to your website once it's live: Google, social media, returning guests, local partners and ads, with monthly reporting.",
     involves:
       "We help you bring your own audience to your own website: social profiles that link to it properly, content planned around your seasons, email to past guests who have agreed to hear from you, and paid campaigns where the numbers justify them. The aim is an audience you reach independently of any booking platform.",
     whoNeedsIt: [
@@ -347,7 +347,7 @@ export const services: Service[] = [
       "Your quiet and busy periods",
       "A realistic monthly budget, if you want paid advertising",
     ],
-    seoTitle: "Social Media and Booking Marketing for Vacation Rentals",
+    seoTitle: "Direct Booking Marketing for Vacation Rentals",
     seoDescription:
       "Social media, email and paid marketing that brings your own audience to your vacation rental website, with honest reporting on what it produces.",
   },

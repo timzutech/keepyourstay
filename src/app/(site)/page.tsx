@@ -6,6 +6,7 @@ import { HeroBrowser } from "@/components/HeroBrowser";
 import { Photo } from "@/components/Photo";
 import { TestimonialList } from "@/components/TestimonialList";
 import { homeFaqs } from "@/content/faqs";
+import { channels } from "@/content/marketing";
 import { services } from "@/content/services";
 import { getProjects, getSettings, getTestimonials } from "@/lib/data";
 import { pageMeta } from "@/lib/seo";
@@ -195,6 +196,35 @@ export default async function HomePage() {
             <Link href="/direct-booking" className="btn btn-primary w-full">Read the direct booking guide</Link>
           </div>
         </div>
+      </section>
+
+      {/* Marketing: how guests find the website */}
+      <section className="bg-paper">
+       <div className="wrap band">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="font-bold text-forest">After launch</p>
+            <h2 className="title mt-2">A website is step one. We help guests find it.</h2>
+          </div>
+          <p className="reading lg:col-span-4 lg:col-start-9">
+            A new website doesn't fill your calendar on its own. We plan and run the marketing that brings travellers
+            to it, and report every month on what's working.
+          </p>
+        </div>
+        <ol className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+          {channels.map((c, i) => (
+            <li key={c.title} className="rule-t pt-4">
+              <span className="text-[2rem] font-bold leading-none text-forest [font-stretch:80%]" aria-hidden="true">{i + 1}</span>
+              <h3 className="heading mt-2">{c.title}</h3>
+              <p className="reading-sm mt-2">{c.short}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-12 flex flex-col gap-3 sm:flex-row">
+          <Link href="/marketing" className="btn btn-primary">See how we get you guests</Link>
+          <Link href="/contact#project" className="btn btn-outline">Plan my marketing</Link>
+        </div>
+       </div>
       </section>
 
       {/* Services */}
