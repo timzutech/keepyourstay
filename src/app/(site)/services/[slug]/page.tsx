@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { Cta } from "@/components/Cta";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHeader } from "@/components/PageHeader";
+import { articlesForService } from "@/content/related";
 import { getService, services } from "@/content/services";
+import { getPosts } from "@/lib/data";
 import { pageMeta, serviceLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -22,6 +24,8 @@ export default async function ServicePage({ params }: Props) {
   if (!service) notFound();
   const path = `/services/${service.slug}`;
   const others = services.filter((s) => s.slug !== service.slug).slice(0, 4);
+  const wanted = articlesForService(service.slug);
+  const reading = (await getPosts()).filter((p) => wanted.includes(p.slug)).slice(0, 3);
 
   return (
     <>
@@ -111,6 +115,18 @@ export default async function ServicePage({ params }: Props) {
             ))}
             <li><Link href="/services" className="link">All services</Link></li>
           </ul>
+          {reading.length > 0 && (
+            <>
+              <h2 className="heading mt-12">Further reading</h2>
+              <ul className="mt-5 grid gap-3">
+                {reading.map((p) => (
+                  <li key={p.slug}>
+                    <Link href={`/blog/${p.slug}`} className="link">{p.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </section>
 

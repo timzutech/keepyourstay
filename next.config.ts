@@ -15,6 +15,19 @@ const nextConfig: NextConfig = {
         : []),
     ],
   },
+  // In production, send visitors and crawlers on any *.vercel.app address to
+  // the real domain so search engines index one copy of the site.
+  async redirects() {
+    if (process.env.VERCEL_ENV !== "production") return [];
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: ".*\\.vercel\\.app" }],
+        destination: "https://www.keepyourstay.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -22,7 +22,7 @@ const seeds: Seed[] = [
     category: cat("direct-bookings"),
     tags: [tag("Direct bookings"), tag("Getting started")],
     featured: true,
-    published_at: "2026-10-06T09:00:00Z",
+    published_at: "2026-11-18T14:30:00Z",
     cover_image: photo(photos.villaPool),
     cover_alt: "Villa terrace beside a private swimming pool",
     content: `Booking platforms are very good at one thing: putting your property in front of people who are ready to travel. For many owners they are the reason the business exists at all. This article is not an argument against them.
@@ -63,7 +63,7 @@ If you are just starting out, a website is still worth having. Expect it to grow
     category: cat("direct-bookings"),
     tags: [tag("Direct bookings"), tag("Booking platforms")],
     featured: true,
-    published_at: "2026-10-13T09:00:00Z",
+    published_at: "2026-11-18T14:31:00Z",
     cover_image: photo(photos.beachHouse),
     cover_alt: "Timber beach house beside a quiet road",
     content: `Owners often frame this as a choice. It rarely is. The useful question is not "platform or direct?" but "what proportion of each suits my business, and how do I get there?"
@@ -115,7 +115,7 @@ There is no universal target. The right mix is the one that leaves you less expo
     category: cat("website-design"),
     tags: [tag("Direct bookings"), tag("Getting started"), tag("Booking engines")],
     featured: false,
-    published_at: "2026-10-20T09:00:00Z",
+    published_at: "2026-11-18T14:32:00Z",
     cover_image: photo(photos.livingRoom),
     cover_alt: "Modern living room with an armchair and framed art",
     content: `A direct booking website has more moving parts than an ordinary brochure site. Taking the decisions in a sensible order saves rework.
@@ -172,7 +172,7 @@ A website needs visitors. Decide in advance how people will find it: search, soc
     category: cat("operations"),
     tags: [tag("Calendars"), tag("Property management systems")],
     featured: false,
-    published_at: "2026-10-27T09:00:00Z",
+    published_at: "2026-11-18T14:33:00Z",
     cover_image: photo(photos.sunlitRoom),
     cover_alt: "Sunlit room with a desk, computer and sofa",
     content: `If your property can be booked in more than one place, each of those places needs to know when it has been booked somewhere else. That is all calendar integration is. The details are in how quickly, and how reliably, the news travels.
@@ -227,7 +227,7 @@ No setup makes double bookings impossible, but a well-tested one makes them rare
     category: cat("seo-and-marketing"),
     tags: [tag("SEO"), tag("Google")],
     featured: true,
-    published_at: "2026-11-03T09:00:00Z",
+    published_at: "2026-11-18T14:34:00Z",
     cover_image: photo(photos.cabinMeadow),
     cover_alt: "Log cabin in a meadow of wildflowers",
     content: `Search engine optimisation for a rental property is less about tricks than about being the clearest, most useful result for a small number of searches that matter.
@@ -281,7 +281,7 @@ Search visibility builds over months. Use Search Console to see which searches b
     category: cat("website-design"),
     tags: [tag("Guest experience"), tag("Website features")],
     featured: false,
-    published_at: "2026-11-07T09:00:00Z",
+    published_at: "2026-11-18T14:35:00Z",
     cover_image: photo(photos.bedroom),
     cover_alt: "Bedroom with a white sofa and warm lighting",
     content: `A guest visiting your website is trying to answer a handful of questions as quickly as possible. Understanding them is most of what good rental website design comes down to.
@@ -341,7 +341,7 @@ Answer the practical questions early, show the property honestly, make the price
     category: cat("operations"),
     tags: [tag("Multi-property"), tag("Property management systems")],
     featured: false,
-    published_at: "2026-11-10T09:00:00Z",
+    published_at: "2026-11-18T14:36:00Z",
     cover_image: photo(photos.villaWhite),
     cover_alt: "White house beside a swimming pool in morning light",
     content: `The second property changes things. With one rental, the property is the brand. With several, you have to decide what guests are choosing: a particular house, or you.
@@ -389,7 +389,7 @@ The test of a multi-property website is how much work the next addition takes. I
     category: cat("direct-bookings"),
     tags: [tag("Guest experience"), tag("Direct bookings"), tag("Reviews")],
     featured: false,
-    published_at: "2026-11-12T09:00:00Z",
+    published_at: "2026-11-18T14:37:00Z",
     cover_image: photo(photos.cotswoldCottage),
     cover_alt: "Stone cottage with a thatched roof and clipped hedges",
     content: `Asking someone to pay for a stay on a website they have never heard of is asking for trust. Guests are right to be careful; rental scams exist. Your job is to make it easy for an honest guest to see that you are an honest host.
@@ -441,7 +441,7 @@ Trust on a direct website is built from many small, verifiable things. None is d
     category: cat("website-design"),
     tags: [tag("Website features"), tag("Getting started")],
     featured: false,
-    published_at: "2026-11-14T09:00:00Z",
+    published_at: "2026-11-18T14:38:00Z",
     cover_image: photo(photos.poolTerrace),
     cover_alt: "Pool terrace with a table and chairs",
     content: `Feature lists grow easily. This one is sorted by priority, so you can launch with what matters and add the rest when it is justified.
@@ -497,6 +497,128 @@ Trust on a direct website is built from many small, verifiable things. None is d
 Auto-playing video with sound, pop-ups that appear before the page has loaded, countdown timers and "three people are looking at this" messages. They slow the site and wear down the trust you are trying to build.
 
 A rental website does not need to be large. It needs to be clear, honest and easy to book from.`,
+  },
+  {
+    slug: "do-i-need-a-website-for-my-airbnb",
+    title: "Do I Need a Website for My Airbnb?",
+    excerpt:
+      "Not every host needs one straight away. Here is how to tell whether a website would help your rental, what it can and cannot do, and how to run one without breaking platform rules.",
+    category: cat("direct-bookings"),
+    tags: [tag("Getting started"), tag("Booking platforms")],
+    featured: false,
+    published_at: "2026-11-22T09:00:00Z",
+    cover_image: photo(photos.blueHouse),
+    cover_alt: "Blue and white house under a clear sky",
+    content: `The honest answer is: not always, and not on day one. A website is useful when there are people looking for your property who have nowhere of yours to land. If that is not happening yet, a listing may be all you need for now.
+
+This article will help you work out which situation you are in.
+
+## What a listing already does for you
+
+Airbnb and similar platforms bring an audience, handle payments, collect reviews and give guests a familiar way to book. For a new property with no reputation, that is hard to replicate. If you are just starting out, getting the listing right (photos, description, pricing, reviews) is usually the better use of your time.
+
+## Signs a website would help
+
+**People search for your property by name.** Past guests recommend you, a local business mentions you, or someone sees your sign. When they search, a website of your own gives them somewhere to arrive.
+
+**Guests come back.** Repeat guests who already know and trust you are the most likely to look you up directly next time they plan a trip.
+
+**You have more than one property.** A single site can present a whole collection, which no individual listing can.
+
+**You want a presence that does not depend on one company.** Platforms change their fees, their search rankings and their rules. A website is the part of your online presence that stays the same.
+
+**You want to explain things properly.** A website gives you room for a local guide, detailed house information and the story of the place, without a character limit.
+
+## What a website will not do
+
+A website does not bring visitors by itself. Nobody finds a new site by accident. It needs search visibility, which takes months to build, and it works best alongside the people who already know your property.
+
+It will not replace a platform's reach for a new property. And it creates some work: keeping the calendar accurate, answering enquiries, and handling payments and cancellations yourself or through a booking tool.
+
+## Staying within platform rules
+
+Each platform has terms about guest communication and off-platform bookings. Airbnb, for example, does not allow hosts to use its messaging or booking process to steer guests elsewhere. Read the current terms for every platform you use.
+
+In practice, a direct booking website should grow through channels you own: your own name in search results, your social profiles, local partners, signage, and guests who come back on their own. It should not be used to divert a booking that started on a platform. That approach puts your listing at risk and is not worth it.
+
+## A sensible order of steps
+
+1. **Get the listing working well first.** Good photos, a clear description and genuine reviews.
+2. **Register your property's name as a domain**, even before you build anything.
+3. **Launch a simple site** with photos, information, an availability calendar and a way to enquire or book.
+4. **Connect the calendar** to your listings so you never double-book. Our guide to [how booking calendar integration works](/blog/how-booking-calendar-integration-works) explains the options.
+5. **Add online payment and search work** once the basics are running.
+
+If you want a rough idea of what direct bookings could be worth to you, the [savings calculator](/savings-calculator) lets you enter your own numbers. It is an illustration, not a forecast.
+
+## The short version
+
+You do not need a website to host successfully. You need one when people are looking for your property and have nowhere of yours to find it, or when you want part of your business to stand on its own. If that describes you, start small and build from there.`,
+  },
+  {
+    slug: "how-much-does-a-vacation-rental-website-cost",
+    title: "How Much Does a Vacation Rental Website Cost?",
+    excerpt:
+      "There is no single price, because the cost depends on what the site has to do. Here are the factors that drive it, the running costs people forget, and the questions to ask before you get a quote.",
+    category: cat("website-design"),
+    tags: [tag("Getting started"), tag("Website features")],
+    featured: false,
+    published_at: "2026-11-22T10:00:00Z",
+    cover_image: photo(photos.cabinSmoke),
+    cover_alt: "Cabin among trees with smoke rising from its chimney",
+    content: `"How much does a website cost?" is a bit like "how much does a renovation cost?" The honest answer is that it depends on what you need it to do. A simple information site and a multi-property site with live booking and payments are different projects.
+
+Rather than quote a number that would be wrong for most readers, this article explains what drives the cost, so you can compare quotes properly and decide what you actually need.
+
+## The main cost drivers
+
+**How many properties.** One property needs a handful of pages. A portfolio needs a page for every property, plus search and filtering. This is often the biggest single factor.
+
+**Booking: enquiry or instant book.** An enquiry form, where you confirm by email, is simpler. Live availability with instant booking needs a booking engine and careful testing.
+
+**Calendar and PMS connections.** Showing availability from iCal is straightforward. A full connection to a property management system depends on what that system allows, and some require a paid plan or a specific booking tool. See [how booking calendar integration works](/blog/how-booking-calendar-integration-works) for the differences.
+
+**Payments.** Taking deposits and balances online means setting up a payment provider, handling refunds and testing every step.
+
+**Design.** A design built around your property and brand takes more work than adapting a template. Both can work well.
+
+**Content.** Who writes the text and supplies the photos? If you already have good photography and descriptions, the project is quicker. If not, they need to be planned in.
+
+**Languages.** Each extra language adds pages to write, translate and maintain.
+
+**Moving from an old site.** A redesign needs redirects so existing search results and links keep working.
+
+## Running costs people forget
+
+The build is one cost. These continue afterwards:
+
+- **Domain name**, renewed every year.
+- **Hosting**, monthly or yearly.
+- **Booking engine or PMS subscription**, if you use one. Some charge per booking, some a flat fee.
+- **Payment processing fees** on each card transaction, charged by the payment provider.
+- **Email**, if you want an address on your own domain.
+- **Maintenance**: updates, backups and checking that forms, calendars and payments still work. A broken booking form that nobody notices is the most expensive problem a rental site can have.
+
+## Platform website builders
+
+Some booking tools and PMS providers include a basic website builder. These can be a sensible starting point: low setup cost and the calendar is already connected. The trade-offs are usually less control over design and search visibility, and a site that is tied to that provider. If you switch tools later, you may have to start the website again.
+
+## Questions to ask before you get a quote
+
+1. How many properties should the site show now, and in a year's time?
+2. Do you want instant booking, or an enquiry you approve?
+3. Which booking tool or PMS do you use, and does it offer a website connection?
+4. Do you need online payment, and in which currencies?
+5. Do you have professional photos and written descriptions?
+6. Who will update the site after launch?
+
+Answering these before you speak to anyone will get you quotes you can compare like for like.
+
+## Getting a figure for your project
+
+We don't publish fixed prices because the right site for a single cabin and a twelve-property portfolio are very different projects. Every project starts with a consultation and a written quote that lists what is included, what you would pay separately (such as booking software), and the timeline.
+
+If you want to explore what a direct booking channel could be worth before deciding, try the [savings calculator](/savings-calculator) with your own figures. When you are ready, you can [request a custom quote](/contact#project).`,
   },
 ];
 

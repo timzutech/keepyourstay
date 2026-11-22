@@ -6,6 +6,8 @@ import { PostCard } from "@/components/Cards";
 import { Cta } from "@/components/Cta";
 import { JsonLd } from "@/components/JsonLd";
 import { Photo } from "@/components/Photo";
+import { servicesForArticle } from "@/content/related";
+import { getService } from "@/content/services";
 import { formatDate, getPost, getPosts, readingMinutes } from "@/lib/data";
 import { articleLd, pageMeta } from "@/lib/seo";
 
@@ -37,6 +39,9 @@ export default async function PostPage({ params }: Props) {
     .filter((p) => p.slug !== post.slug)
     .sort((a, b) => Number(b.category?.slug === post.category?.slug) - Number(a.category?.slug === post.category?.slug))
     .slice(0, 3);
+  const relatedServices = servicesForArticle(post.slug)
+    .map(getService)
+    .filter((s) => s !== undefined);
 
   return (
     <>
@@ -91,6 +96,19 @@ export default async function PostPage({ params }: Props) {
             >
               {post.content}
             </Markdown>
+
+            {relatedServices.length > 0 && (
+              <aside className="!mt-12 rounded-lg border-2 border-ink bg-paper p-6 not-prose" aria-labelledby="related-services">
+                <h2 id="related-services" className="subheading !mt-0 font-bold">How we can help</h2>
+                <ul className="mt-3 grid gap-2">
+                  {relatedServices.map((s) => (
+                    <li key={s.slug}>
+                      <Link href={`/services/${s.slug}`} className="link">{s.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            )}
 
             {post.tags.length > 0 && (
               <ul className="!mt-12 flex list-none flex-wrap gap-2 !pl-0 font-display" aria-label="Tags">

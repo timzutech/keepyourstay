@@ -41,7 +41,7 @@ export const defaultSettings: SiteSettings = {
   site_title: "KeepYourStay",
   tagline: "Your property. Your website. Your bookings.",
   seo_description:
-    "KeepYourStay designs and builds vacation rental websites with booking calendars, payments and search visibility, so your property business has a booking channel of its own.",
+    "Vacation rental website design and direct booking websites, with calendars, payments and search basics, so your property has its own booking channel.",
   business_email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "KeepYourStay@gmail.com",
   whatsapp_number: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "19514692722",
   brand_blurb:
