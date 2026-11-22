@@ -506,7 +506,7 @@ A rental website does not need to be large. It needs to be clear, honest and eas
     category: cat("direct-bookings"),
     tags: [tag("Getting started"), tag("Booking platforms")],
     featured: false,
-    published_at: "2026-11-22T09:00:00Z",
+    published_at: "2026-11-22T06:30:00Z",
     cover_image: photo(photos.blueHouse),
     cover_alt: "Blue and white house under a clear sky",
     content: `The honest answer is: not always, and not on day one. A website is useful when there are people looking for your property who have nowhere of yours to land. If that is not happening yet, a listing may be all you need for now.
@@ -563,7 +563,7 @@ You do not need a website to host successfully. You need one when people are loo
     category: cat("website-design"),
     tags: [tag("Getting started"), tag("Website features")],
     featured: false,
-    published_at: "2026-11-22T10:00:00Z",
+    published_at: "2026-11-22T06:31:00Z",
     cover_image: photo(photos.cabinSmoke),
     cover_alt: "Cabin among trees with smoke rising from its chimney",
     content: `"How much does a website cost?" is a bit like "how much does a renovation cost?" The honest answer is that it depends on what you need it to do. A simple information site and a multi-property site with live booking and payments are different projects.
