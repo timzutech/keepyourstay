@@ -130,21 +130,19 @@ ok("after opting in via preferences: analytics loads only if a GA ID is configur
 // ── 6. Savings calculator ──
 await page.goto(BASE + "/savings-calculator", { waitUntil: "load" });
 const set = async (id, v) => { await page.fill(`#calc-${id}`, String(v)); };
-await page.getByText("Running costs of your own website").click();
 await set("monthlyRevenue", 10000); await set("independentSharePct", 20); await set("platformFeePct", 15);
-await set("paymentFeePct", 3); await set("softwareCost", 60); await set("marketingCost", 100);
 const panel = page.locator('[aria-live="polite"]');
 let text = await panel.innerText();
-ok("calculator: fees now $1,500; 10,000 × 20% × 15% − 60 − 60 − 100 = $80/month, $960/year", text.includes("$1,500") && text.includes("$300") && text.includes("$80") && text.includes("$960"), text.replace(/\s+/g, " ").slice(0, 160));
+ok("calculator: fees now $1,500; 10,000 × 20% × 15% − 3% card − $50 = $190/month, $2,280 by next year", text.includes("$1,500") && text.includes("$300") && text.includes("$190") && text.includes("$2,280") && /By \w+ \d{4}/.test(text), text.replace(/\s+/g, " ").slice(0, 160));
 await page.getByRole("button", { name: "50%" }).click();
 ok("calculator: share preset buttons work", (await page.inputValue("#calc-independentSharePct")) === "50");
 await set("independentSharePct", 20);
 await page.getByText("Pounds sterling (£)").click();
 text = await panel.innerText();
-ok("calculator: currency switch to GBP", text.includes("£80") && !text.includes("$"));
-await set("independentSharePct", 5);
+ok("calculator: currency switch to GBP", text.includes("£190") && !text.includes("$"));
+await set("independentSharePct", 2);
 text = await panel.innerText();
-ok("calculator: negative scenario shown honestly", text.includes("−£100") && /about the same as, or more than/.test(text));
+ok("calculator: negative scenario shown honestly", text.includes("−£26") && /about the same as, or more than/.test(text));
 await set("platformFeePct", 150);
 ok("calculator: rejects a percentage over 100", (await page.getByText("Enter a percentage between 0 and 100").count()) === 1 && /Correct the highlighted/.test(await panel.innerText()));
 await set("platformFeePct", 15);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   calculate,
   calculatorDefaults,
@@ -50,6 +50,12 @@ export function Calculator() {
     marketingCost: String(calculatorDefaults.marketingCost),
   }));
   const [currency, setCurrency] = useState<Currency>("USD");
+  const [nextYear, setNextYear] = useState<string | null>(null);
+  useEffect(() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 1);
+    setNextYear(d.toLocaleDateString("en-US", { month: "long", year: "numeric" }));
+  }, []);
   const set = (key: NumericKey, value: string) => setRaw((r) => ({ ...r, [key]: value }));
 
   const errors = useMemo(() => {
@@ -178,10 +184,6 @@ export function Calculator() {
             {errors.independentSharePct && <p className="field-error">{errors.independentSharePct}</p>}
           </fieldset>
 
-          <details className="mt-8 rounded-lg border-2 border-ink bg-paper p-4 sm:p-5">
-            <summary className="cursor-pointer font-bold">Running costs of your own website (adjust if you know them)</summary>
-            <div className="mt-5 grid gap-5">{costFields.map(field)}</div>
-          </details>
         </form>
 
         <div className="lg:col-span-6">
@@ -215,9 +217,32 @@ export function Calculator() {
                       {signed(r.monthlyDifference)}
                       <span className="text-xl font-semibold"> a month</span>
                     </dd>
-                    <dd className="mt-2 text-lg text-cream/90">{signed(r.annualDifference)} a year</dd>
                   </div>
                 </dl>
+
+                {r.monthlyDifference > 0 && (
+                  <div className="mt-2 rounded-lg bg-cream p-5 text-ink sm:p-6">
+                    <p className="font-semibold">{nextYear ? `By ${nextYear}, you could keep about` : "Over the next 12 months, you could keep about"}</p>
+                    <p className="mt-1 text-[clamp(2.6rem,7vw,4rem)] font-bold leading-none tracking-tight text-forest tabular-nums [font-stretch:85%]">
+                      {money(r.annualDifference)}
+                    </p>
+                    <div className="mt-5 flex h-20 items-end gap-1" role="img" aria-label={`Savings building up month by month to ${money(r.annualDifference)} after 12 months`}>
+                      {Array.from({ length: 12 }, (_, m) => (
+                        <div key={m} className="flex-1 rounded-t-sm bg-forest/80" style={{ height: `${((m + 1) / 12) * 100}%` }} />
+                      ))}
+                    </div>
+                    <p className="mt-2 flex justify-between text-xs text-stone">
+                      <span>Month 1: {money(r.monthlyDifference)}</span>
+                      <span>Month 12: {money(r.annualDifference)}</span>
+                    </p>
+                    <a href="#send" className="btn mt-5 w-full justify-center border-ink bg-ink text-cream hover:bg-forest hover:border-forest">Get my own booking website</a>
+                  </div>
+                )}
+
+                <p className="mt-4 text-sm text-cream/80">
+                  Includes {inputs.paymentFeePct}% card payment fees and about {money(inputs.softwareCost)} a month for
+                  your website and booking software.
+                </p>
 
                 {r.monthlyDifference <= 0 && (
                   <p className="mt-6 rounded-lg border-2 border-cream/60 p-4 text-sm">
