@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata = pageMeta({
   title: "Potential Savings Calculator for Vacation Rentals",
   description:
-    "Estimate how platform fees on independently sourced bookings compare with the costs of your own booking channel. Enter your own assumptions, in USD or GBP.",
+    "Enter your monthly revenue and platform fee to see what you pay in booking fees, and how much you could save when guests book on your own website. USD or GBP.",
   path: "/savings-calculator",
 });
 
@@ -15,11 +15,11 @@ export default function SavingsCalculatorPage() {
       <PageHeader
         crumbs={[{ name: "Savings calculator", path: "/savings-calculator" }]}
         title="Calculate your potential savings"
-        lede="Compare the platform fees on bookings you could realistically win independently with the costs of running your own booking channel. Every figure is yours to change."
+        lede="Enter your monthly booking revenue and the percentage your booking platform takes. See what you pay in fees now, and how much you could save each month when some guests book on your own website."
       >
         <p className="mt-4 max-w-[46em] text-sm muted">
-          This models only the share of bookings you might attract independently, for example through search,
-          referrals and returning guests. It does not assume existing platform bookings can or should be moved.
+          Your own website works alongside the platforms. The saving comes from guests who find and book with you
+          directly, such as returning guests and referrals, not from moving bookings that start on a platform.
         </p>
       </PageHeader>
 
@@ -31,11 +31,11 @@ export default function SavingsCalculatorPage() {
         <div className="wrap band-tight grid gap-8 lg:grid-cols-12">
           <h2 className="heading lg:col-span-4">How the estimate is worked out</h2>
           <ol className="rule-t reading-sm text-[1.05rem] lg:col-span-7 lg:col-start-6">
-            <li className="rule-b py-3.5"><strong>Independent booking revenue</strong> = monthly booking revenue × the independent share you entered.</li>
-            <li className="rule-b py-3.5"><strong>Illustrative platform fees</strong> = that revenue × the platform fee rate you entered.</li>
-            <li className="rule-b py-3.5"><strong>Payment costs</strong> = that revenue × the payment processing rate you entered.</li>
-            <li className="rule-b py-3.5"><strong>Net difference</strong> = platform fees − payment costs − software costs − marketing costs.</li>
-            <li className="rule-b py-3.5"><strong>Annualised difference</strong> = the monthly net difference × 12.</li>
+            <li className="rule-b py-3.5"><strong>Platform fees you pay now</strong> = monthly revenue × the platform percentage.</li>
+            <li className="rule-b py-3.5"><strong>Direct booking revenue</strong> = monthly revenue × the share booked on your own website.</li>
+            <li className="rule-b py-3.5"><strong>Fees you'd keep</strong> = direct booking revenue × the platform percentage.</li>
+            <li className="rule-b py-3.5"><strong>Monthly saving</strong> = fees you'd keep − card payment fees − website, software and marketing costs.</li>
+            <li className="rule-b py-3.5"><strong>Yearly saving</strong> = monthly saving × 12.</li>
           </ol>
         </div>
       </section>

@@ -11,6 +11,7 @@ export type CalculatorInputs = {
 };
 
 export type CalculatorResult = {
+  totalPlatformFees: number;     // fees on all monthly revenue at the platform rate
   independentRevenue: number;
   platformFees: number;
   paymentCosts: number;
@@ -21,12 +22,12 @@ export type CalculatorResult = {
 };
 
 export const calculatorDefaults: CalculatorInputs = {
-  monthlyRevenue: 8000,
-  independentSharePct: 20,
+  monthlyRevenue: 5000,
+  independentSharePct: 25,
   platformFeePct: 15,
   paymentFeePct: 3,
-  softwareCost: 60,
-  marketingCost: 100,
+  softwareCost: 50,
+  marketingCost: 0,
   currency: "USD",
 };
 
@@ -44,6 +45,7 @@ const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
 /**
  * Illustrative scenario only — not a forecast.
  *
+ *   platform fees now   = monthly revenue × platform fee rate
  *   independent revenue = monthly revenue × independent share
  *   platform fees       = independent revenue × platform fee rate
  *   payment costs       = independent revenue × payment processing rate
@@ -57,6 +59,7 @@ export function calculate(i: CalculatorInputs): CalculatorResult {
   const alternativeCosts = paymentCosts + fixedCosts;
   const monthlyDifference = platformFees - alternativeCosts;
   return {
+    totalPlatformFees: round2(i.monthlyRevenue * (i.platformFeePct / 100)),
     independentRevenue: round2(independentRevenue),
     platformFees: round2(platformFees),
     paymentCosts: round2(paymentCosts),

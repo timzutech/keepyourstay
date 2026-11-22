@@ -14,6 +14,7 @@ const base = {
 describe("savings calculator", () => {
   it("follows the published formulas", () => {
     const r = calculate(base);
+    expect(r.totalPlatformFees).toBe(1500); // 10,000 × 15%
     expect(r.independentRevenue).toBe(2000); // 10,000 × 20%
     expect(r.platformFees).toBe(300); // 2,000 × 15%
     expect(r.paymentCosts).toBe(60); // 2,000 × 3%
