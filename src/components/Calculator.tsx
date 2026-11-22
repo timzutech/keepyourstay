@@ -207,10 +207,6 @@ export function Calculator() {
                     <dt>Card payment fees ({inputs.paymentFeePct}%)</dt>
                     <dd className="text-xl font-bold tabular-nums">−{money(r.paymentCosts)}</dd>
                   </div>
-                  <div className="rule-t flex items-baseline justify-between gap-4 py-3">
-                    <dt>{inputs.marketingCost > 0 ? "Website, software and marketing" : "Website and software"}</dt>
-                    <dd className="text-xl font-bold tabular-nums">−{money(r.fixedCosts)}</dd>
-                  </div>
                   <div className="rule-t py-4">
                     <dt className="font-semibold">You could save about</dt>
                     <dd className="mt-1 text-[clamp(2.6rem,7vw,4rem)] font-bold leading-none tracking-tight tabular-nums [font-stretch:85%]">
@@ -240,14 +236,13 @@ export function Calculator() {
                 )}
 
                 <p className="mt-4 text-sm text-cream/80">
-                  Includes {inputs.paymentFeePct}% card payment fees and about {money(inputs.softwareCost)} a month for
-                  your website and booking software.
+                  Includes the {inputs.paymentFeePct}% card payment fee your payment provider charges on direct bookings.
                 </p>
 
                 {r.monthlyDifference <= 0 && (
                   <p className="mt-6 rounded-lg border-2 border-cream/60 p-4 text-sm">
-                    At this level, running your own website costs about the same as, or more than, the fees you'd
-                    keep. Try a higher share of direct bookings to see where it starts to pay off.
+                    With a platform fee this low, card payment fees on direct bookings would cost about the same as, or
+                    more than, the fees you'd keep.
                   </p>
                 )}
               </>

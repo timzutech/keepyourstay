@@ -26,7 +26,7 @@ export const calculatorDefaults: CalculatorInputs = {
   independentSharePct: 25,
   platformFeePct: 15,
   paymentFeePct: 3,
-  softwareCost: 50,
+  softwareCost: 0,
   marketingCost: 0,
   currency: "USD",
 };

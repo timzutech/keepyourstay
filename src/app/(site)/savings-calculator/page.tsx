@@ -34,7 +34,7 @@ export default function SavingsCalculatorPage() {
             <li className="rule-b py-3.5"><strong>Platform fees you pay now</strong> = monthly revenue × the platform percentage.</li>
             <li className="rule-b py-3.5"><strong>Direct booking revenue</strong> = monthly revenue × the share booked on your own website.</li>
             <li className="rule-b py-3.5"><strong>Fees you'd keep</strong> = direct booking revenue × the platform percentage.</li>
-            <li className="rule-b py-3.5"><strong>Monthly saving</strong> = fees you'd keep − card payment fees − website, software and marketing costs.</li>
+            <li className="rule-b py-3.5"><strong>Monthly saving</strong> = fees you'd keep − the 3% card payment fee on those direct bookings.</li>
             <li className="rule-b py-3.5"><strong>Yearly saving</strong> = monthly saving × 12.</li>
           </ol>
         </div>
